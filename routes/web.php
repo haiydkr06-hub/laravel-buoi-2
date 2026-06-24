@@ -1,17 +1,38 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ArticleController;
+// 1. Trang chủ (gọi file welcome.blade.php)
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
 
-// Tuyến đường trang chủ - Gọi method index của BlogController
-Route::get('/', [BlogController::class, 'index']);
-
-// Tuyến đường trang giới thiệu (About)
+// 2. Về chúng tôi (gọi file about.blade.php)
 Route::get('/about', function () {
-    return '<h1>Về chúng tôi</h1><p>Đại học Phú Xuân</p>';
+    return view('about');
+})->name('about');
+
+// 3. Liên hệ (gọi file contact.blade.php)
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
+
+// Gom nhóm /shop cho các view nằm trong thư mục shop
+Route::prefix('shop')->group(function () {
+
+    // 4. Sản phẩm (gọi file shop/products.blade.php)
+    Route::get('/products', function () {
+        return view('shop.products');
+    })->name('shop.products');
+
+    // 5. Giỏ hàng (gọi file shop/cart.blade.php)
+    Route::get('/cart', function () {
+        return view('shop.cart');
+    })->name('shop.cart');
+
+
 });
 
-// BƯỚC 7: Thêm route tham số truyền ID bài viết
-Route::get('/posts/{id}', function ($id) {
-    return "Đang xem bài viết số: " . $id;
-});
+
+    Route::resource('articles', ArticleController::class);
