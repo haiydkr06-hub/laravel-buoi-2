@@ -2,37 +2,35 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\PostController; // Khai báo dòng này
+
 // 1. Trang chủ (gọi file welcome.blade.php)
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// 2. Về chúng tôi (gọi file about.blade.php)
+// 2. Định nghĩa route cho danh sách bài viết Lab 2
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+
+// 3. Về chúng tôi
 Route::get('/about', function () {
     return view('about');
 })->name('about');
 
-// 3. Liên hệ (gọi file contact.blade.php)
+// 4. Liên hệ
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-
 // Gom nhóm /shop cho các view nằm trong thư mục shop
 Route::prefix('shop')->group(function () {
-
-    // 4. Sản phẩm (gọi file shop/products.blade.php)
+    // Sản phẩm
     Route::get('/products', function () {
         return view('shop.products');
     })->name('shop.products');
 
-    // 5. Giỏ hàng (gọi file shop/cart.blade.php)
+    // Giỏ hàng
     Route::get('/cart', function () {
         return view('shop.cart');
     })->name('shop.cart');
-
-
 });
-
-
-    Route::resource('articles', ArticleController::class);
